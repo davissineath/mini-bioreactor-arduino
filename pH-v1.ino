@@ -116,3 +116,4 @@ lcd.setCursor(0,1);
 lcd.print("pH: ");
 lcd.print(ph_act);
 delay(500);
+}

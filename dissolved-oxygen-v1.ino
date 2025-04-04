@@ -1,17 +1,16 @@
 #include <>
 
-//TEMP CODE GIVEN BELOW
-// #include <OneWire.h>
-// #include <DallasTemperature.h>
-// #include <LiquidCrystal_I2C.h>
-// #include <Wire.h>
+//DO2 CODE GIVEN BELOW
+// #include <OneWire.h> // what does this do?
+// #include <LiquidCrystal_I2C.h> //for the monitor
+// #include <Wire.h> // what does this do?
 
-// LiquidCrystal_I2C lcd(0x27, 20, 4);
+// LiquidCrystal_I2C lcd(0x27, 20, 4); // defines the monitor values
 
-// const int SENSOR_PIN = A0; //temperature sensor connected to analog pin 0
-// const int PWM_PIN = 12; //heater mostfet connected to digital pin 12
+// const int SENSOR_PIN = A1; //DO2 sensor connected to analog pin 1
+// const int PWM_PIN = 12; //digital pin 12, could be used depending on probe? 
 
-// //set up variables for PID control
+// //set up variables for PID control 
 // float Kc = 12.06; //non rigorously defined values that also sort of worked (just in case):
 // Kc = 10, Ti = 170, Td = 0
 // float Ti = 152.703;
@@ -35,6 +34,7 @@
 // float tempFahrenheit;
 
 // //PID function
+// // A PID controller seeks to keep some input variable close to a desired setpoint by adjusting an output. The way in which it does this can be 'tuned' by adjusting three parameters (P,I,D).
 // float calcPID(float CV_input, float SP_input) {
 // currentTime = millis();
 // elapsedTime = float(currentTime - previousTime);
@@ -49,13 +49,16 @@
 // }
 
 // OneWire oneWire(SENSOR_PIN);
-// DallasTemperature tempSensor(&oneWire);
+// DallasTemperature tempSensor(&oneWire); //check what the DallasTemperature library does
+
 // void setup() {
 // dMV = 0;
-// lcd.init(); //initilize LED screen
+
+// //initilize LED screen
+// lcd.init(); 
 // lcd.backlight();
 // lcd.setCursor(0, 0);
-// tempSensor.begin(); //initialize temp sensor
+// tempSensor.begin(); //initialize temp sensor 
 // pinMode(PWM_PIN, OUTPUT);
 // tempSensor.requestTemperatures(); //initialize variables for PID control
 // tempCelsius = tempSensor.getTempCByIndex(0);

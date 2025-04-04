@@ -1,6 +1,7 @@
 //Sources
     //https://github.com/DFRobot/Gravity_Analog_Dissolved_Oxygen_Sensor
-    //Wiki from which code was pulled: https://wiki.dfrobot.com/Gravity__Analog_Dissolved_Oxygen_Sensor_SKU_SEN0237
+    //dO2 code is from: https://wiki.dfrobot.com/Gravity__Analog_Dissolved_Oxygen_Sensor_SKU_SEN0237#target_3
+    //ChatGPT combined temp and dO2 scripts
 //Description
     //Combined script of dO2 (dissolved oxygen) and temperature readings for a single screen output which displays both
 

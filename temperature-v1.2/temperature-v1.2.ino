@@ -12,7 +12,7 @@ const int PWM_PIN = 12; //heater mostfet connected to digital pin 12
 
 //set up variables for PID control
 float Kc = 12.06; //non rigorously defined values that also sort of worked (just in case): 
-Kc = 10, Ti = 170, Td = 0
+// float Kc = 10, Ti = 170, Td = 0
 float Ti = 152.703;
 float Td = 38.175;
 float MV = 0; //manipulated variable: 0-100% duty cycle
@@ -82,7 +82,7 @@ analogWrite(PWM_PIN, duty); //adjust the heater accordingly
 tempSensor.requestTemperatures();
 tempCelsius = tempSensor.getTempCByIndex(0);
 CVm = tempCelsius;
-tempFahrenheit = (tempCelsius * (9/5)) + 32
+tempFahrenheit = (tempCelsius * (9/5)) + 32; 
 
 //print information on the LCD screem
 lcd.setCursor(0, 0);
@@ -96,8 +96,7 @@ lcd.setCursor(0, 3);
 lcd.print(tempFahrenheit);
 lcd.setCursor(6, 3);
 lcd.print("F");
-Serial.print("{'MV_pct':"); // Print the MV value in % sent to the final control
-element
+Serial.print("{'MV_pct':"); // Print the MV value in % sent to the final control element
 Serial.print(MV);
 Serial.print(", 'dMV':"); // Print the dMV value (change in MV calculated by PID algorithm)
 Serial.print(dMV);

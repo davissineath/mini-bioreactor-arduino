@@ -56,7 +56,7 @@ void loop()
   Serial.print("Temperaturet:\t" + String(Temperaturet) + "\t");
   Serial.print("ADC RAW:\t" + String(ADC_Raw) + "\t");
   Serial.print("ADC Voltage:\t" + String(ADC_Voltage) + "\t");
-  Serial.println("DO:\t" + String(readDO(ADC_Voltage, Temperaturet)) + "\t");
+  Serial.println("Dissolved Oxygen:\t" + String(readDO(ADC_Voltage, Temperaturet)) + "\t");
 
   delay(1000);
 }

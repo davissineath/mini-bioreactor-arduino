@@ -97,8 +97,7 @@ lcd.print("F");
 Serial.print("{'MV_pct':"); // Print the MV value in % sent to the final control
 element
 Serial.print(MV);
-Serial.print(", 'dMV':"); // Print the dMV value (change in MV calculated by PID
-algorithm)
+Serial.print(", 'dMV':"); // Print the dMV value (change in MV calculated by PID algorithm)
 Serial.print(dMV);
 Serial.print(", 'sensor val':"); // Print the sensor value connected to sensor input
 Serial.print(CVm);
@@ -106,8 +105,7 @@ Serial.print(", 'set point':"); // Print the set point value
 Serial.print(SP_val);
 Serial.print(", 'duty':"); // Print the duty value (0-255) sent to the heater
 Serial.print(duty);
-Serial.print(", 'error':"); // Print the calculated error between set point and CV
-(SP-CV)
+Serial.print(", 'error':"); // Print the calculated error between set point and CV (SP-CV)
 Serial.print(error);
 Serial.print("}");
 Serial.println();

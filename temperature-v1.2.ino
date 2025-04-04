@@ -1,3 +1,5 @@
+//This code is now also applied in the dissolved-oxygen-temperature file, and is now just a reference
+
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <LiquidCrystal_I2C.h>

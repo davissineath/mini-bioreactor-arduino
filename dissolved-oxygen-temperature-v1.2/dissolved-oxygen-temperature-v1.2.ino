@@ -105,8 +105,12 @@ void loop() {
 
   // === DO Sensor Reading ===
   uint16_t adc_raw = analogRead(DO_SENSOR_PIN);
-  uint16_t adc_mv = uint32_t(VREF) * adc_raw / ADC_RES;
-  uint16_t DO_value = readDO(adc_mv, uint8_t(tempCelsius));
+  // uint16_t adc_mv = uint32_t(VREF) * adc_raw / ADC_RES;
+  // uint16_t DO_value = readDO(adc_mv, uint8_t(tempCelsius));
+
+
+  float DO_value = adc_raw; //* calibration_slope + calibration_offset;
+
 
   // === LCD Output ===
   lcd.clear();
@@ -115,7 +119,7 @@ void loop() {
   lcd.setCursor(0, 1);
   lcd.print("DO: "); lcd.print(DO_value); lcd.print(" ug/L");
 
-  // === Serial Output ===
+    // === Serial Output ===
   Serial.print("{'Temp_C':"); Serial.print(tempCelsius);
   Serial.print(", 'DO':"); Serial.print(DO_value);
   Serial.print(", 'MV_pct':"); Serial.print(MV);
@@ -126,3 +130,4 @@ void loop() {
   previousTime = currentTime;
   delay(1000);
 }
+

@@ -1,3 +1,5 @@
+// Code sourced from Utah STEM center
+
 #include <LiquidCrystal_I2C.h>
 LiquidCrystal_I2C lcd(0x27, 20, 4); // set the LCD address to 0x27 for a 16 chars and 2 line display
 #define SensorPin A0 // pH meter Analog output to Arduino Analog Input 0
@@ -44,6 +46,7 @@ control = (180 * IF + 100 * IS + 0 * NC + 0 * DS + 0 * DF) / sum; //180 = ds, 12
 } else {
 control = 0;
 }
+
 // Implement deadband logic, we dont want to have the pump on while we're super close to our target pH
 const float pH_TOLERANCE = 0.1; // target_ph - pH_TOLERANCE = the point at which wewant to shut off the pump to prevent any overshoot
 if (fabs(error) <= pH_TOLERANCE || ph_act >= 7) {
@@ -98,8 +101,14 @@ float ph_act = -5.70 * volt + calibration_value; //then use that voltage to find
 error = target_pH - ph_act;
 delta_error = error - last_error;
 control_variable = fuzzyController(error, delta_error, ph_act);
+
+// turn on pumps
 analogWrite(PUMP_PIN, 255);
 last_error = error;
+// turn on motor
+float motor_power = 0; // controls the power of the motor (0-255)
+analogWrite(MOTOR_PIN, motor_power);
+
 //print all useful information to the serial monitor
 Serial.print("{'pH':");
 Serial.print(ph_act);

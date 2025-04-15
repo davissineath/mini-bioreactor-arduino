@@ -33,7 +33,8 @@ float SP_val = 21.11;
 
 // === DO Calibration ===
 
-#define VREF 5000    // mV
+//VREF is 3300 instead of suggested 5000
+#define VREF 3300    // mV
 #define ADC_RES 1024 // ADC Resolution
 #define TWO_POINT_CALIBRATION 0 //This means we use one point calibration
 #define CAL1_V (1600) // mV

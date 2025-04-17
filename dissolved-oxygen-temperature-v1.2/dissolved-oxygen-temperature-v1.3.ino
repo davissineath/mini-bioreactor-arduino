@@ -37,6 +37,9 @@ float SP_val = 21.11;
 #define VREF 3300    // mV
 #define ADC_RES 1024 // ADC Resolution
 #define TWO_POINT_CALIBRATION 0 //This means we use one point calibration
+
+//#define READ_TEMP (25) //This is removed in combined function
+
 #define CAL1_V (1600) // mV
 #define CAL1_T (25)   // °C
 #define CAL2_V (1300) // mV
@@ -68,6 +71,7 @@ float calcPID(float CV_input, float SP_input) {
 
 int16_t readDO(uint32_t voltage_mv, uint8_t temperature_c) {
 #if TWO_POINT_CALIBRATION == 0
+    //We can use two point calibration by changing the definition to 1 instead of 0
   uint16_t V_saturation = (uint32_t)CAL1_V + (uint32_t)35 * temperature_c - (uint32_t)CAL1_T * 35;
   return (voltage_mv * DO_Table[temperature_c] / V_saturation);
 #else

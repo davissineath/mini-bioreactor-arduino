@@ -8,7 +8,7 @@ LiquidCrystal_I2C lcd(0x27, 20, 4); // set the LCD address to 0x27 for a 16 char
 int pHArray[ArrayLenth]; // Store the average value of the sensor feedback
 int pHArrayIndex = 0;
 
-// Set up pump and motor values
+// Set up pump and motor valuez
 const int PUMP_PIN = 12; // pump is connected to digital pin 12
 const int MOTOR_PIN = 11; // stepper motor is connected to digital pin 11
 int duty; //value from 0-255, indicates strength of signal given to pump

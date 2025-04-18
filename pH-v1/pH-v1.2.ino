@@ -1,6 +1,13 @@
 // Code sourced from Utah STEM center
 
 #include <LiquidCrystal_I2C.h>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <ctime>
+#include <sys/stat.h> 
+
 LiquidCrystal_I2C lcd(0x27, 20, 4); // set the LCD address to 0x27 for a 16 chars and 2 line display
 #define SensorPin A0 // pH meter Analog output to Arduino Analog Input 0
 #define LED 13 //led screen connected to digital pin 13
@@ -153,6 +160,6 @@ lcd.setCursor(0,1);
 lcd.print("pH: ");
 lcd.print(ph_act);
 //record pH values to CSV file
-logToCSV(ph_act)
+logToCSV(ph_act);
 delay(500);
 }

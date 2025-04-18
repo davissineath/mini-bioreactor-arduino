@@ -5,7 +5,6 @@
 //Description
     //Combined script of dO2 (dissolved oxygen) and temperature readings for a single screen output which displays both
 
-
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <LiquidCrystal_I2C.h>

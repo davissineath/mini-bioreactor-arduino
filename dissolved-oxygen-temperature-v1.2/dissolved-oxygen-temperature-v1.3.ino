@@ -12,6 +12,9 @@
 #include <Wire.h>
 #include <fstream>
 #include <string>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 
 // === LCD Setup ===
 LiquidCrystal_I2C lcd(0x27, 20, 4);
@@ -82,21 +85,32 @@ int16_t readDO(uint32_t voltage_mv, uint8_t temperature_c) {
 #endif
 }
 
-void logToCSV(const std::string& filename, float tempC, float doValue) {
-    static bool fileInitialized = false;
-    std::ofstream file;
-    //open the file
-    file.open(filename, std::ios::app)
-    //check if file is new
-    if (!fileInitialized) {
-        file << ("Temp_C, DO"\n"
-        fileInitialized == True
+// Getting current date string
+std::string getDateString() {
+    std::time_t now = std::time(nullptr);
+    std::tm localTime;
+#ifdef _WIN32
+    localtime_s(&localTime, &now); // Windows
+#else
+    localtime_r(&now, &localTime); // Linux/macOS
+#endif
+    std::ostringstream oss;
+    oss << std::put_time(&localTime, "%Y-%m-%d");
+    return oss.str();
+}
+
+// CSV Logging Function
+void logToCSV(float tempC, float doValue) {
+    static bool headerWritten = false;
+    std::string filename = getDateString() + "_Temp_and_DO_measurements.csv";
+
+    if (!headerWritten) {
+        file << "Temp_C,DO\n";
+        headerWritten = true;
     }
-    //record values to file
-    file << tempC << ", " << doValue << "\n";
+
+    file << tempC << "," << doValue << "\n";
     file.close();
-}    
-    outfile.close();
 }
 
 // === Arduino Setup ===
@@ -153,9 +167,7 @@ void loop() {
   Serial.println("}");
 
   // === CSV Output ===
-    logToCSV()
-
-  void
+  logToCSV(tempCelsius, DO_value);
 
   previousTime = currentTime;
   delay(1000);

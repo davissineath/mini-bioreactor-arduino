@@ -10,6 +10,8 @@
 #include <DallasTemperature.h>
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
+#include <fstream>
+#include <string>
 
 // === LCD Setup ===
 LiquidCrystal_I2C lcd(0x27, 20, 4);
@@ -80,6 +82,23 @@ int16_t readDO(uint32_t voltage_mv, uint8_t temperature_c) {
 #endif
 }
 
+void logToCSV(const std::string& filename, float tempC, float doValue) {
+    static bool fileInitialized = false;
+    std::ofstream file;
+    //open the file
+    file.open(filename, std::ios::app)
+    //check if file is new
+    if (!fileInitialized) {
+        file << ("Temp_C, DO"\n"
+        fileInitialized == True
+    }
+    //record values to file
+    file << tempC << ", " << doValue << "\n";
+    file.close();
+}    
+    outfile.close();
+}
+
 // === Arduino Setup ===
 void setup() {
   lcd.init();
@@ -132,6 +151,11 @@ void loop() {
   Serial.print(", 'Error':"); Serial.print(error);
   Serial.print(", 'Time':");Serial.print(currentTime);
   Serial.println("}");
+
+  // === CSV Output ===
+    logToCSV()
+
+  void
 
   previousTime = currentTime;
   delay(1000);

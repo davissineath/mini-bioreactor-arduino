@@ -130,6 +130,7 @@ void loop() {
   Serial.print(", 'MV_pct':"); Serial.print(MV);
   Serial.print(", 'Duty':"); Serial.print(duty);
   Serial.print(", 'Error':"); Serial.print(error);
+  Serial.print(", 'Time':");Serial.print(currentTime);
   Serial.println("}");
 
   previousTime = currentTime;

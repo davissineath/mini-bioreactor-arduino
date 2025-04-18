@@ -47,6 +47,34 @@ control = (180 * IF + 100 * IS + 0 * NC + 0 * DS + 0 * DF) / sum; //180 = ds, 12
 control = 0;
 }
 
+// Getting current date string function
+std::string getDateString() {
+    std::time_t now = std::time(nullptr);
+    std::tm localTime;
+#ifdef _WIN32
+    localtime_s(&localTime, &now); // Windows
+#else
+    localtime_r(&now, &localTime); // Linux/macOS
+#endif
+    std::ostringstream oss;
+    oss << std::put_time(&localTime, "%Y-%m-%d");
+    return oss.str();
+}
+
+// CSV Logging Function
+void logToCSV(float pH) {
+    static bool headerWritten = false;
+    std::string filename = getDateString() + "pH_measurements.csv";
+
+    if (!headerWritten) {
+        file << "pH\n";
+        headerWritten = true;
+    }
+
+    file << pH << "\n";
+    file.close();
+}
+
 // Implement deadband logic, we dont want to have the pump on while we're super close to our target pH
 const float pH_TOLERANCE = 0.1; // target_ph - pH_TOLERANCE = the point at which wewant to shut off the pump to prevent any overshoot
 if (fabs(error) <= pH_TOLERANCE || ph_act >= 7) {
@@ -124,5 +152,7 @@ Serial.println();
 lcd.setCursor(0,1);
 lcd.print("pH: ");
 lcd.print(ph_act);
+//record pH values to CSV file
+logToCSV(ph_act)
 delay(500);
 }

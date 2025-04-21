@@ -1,35 +1,43 @@
 import serial
-import csv
+import pandas as pd
 import time
 from datetime import datetime, timedelta
 
 # Update these to match your actual ports
-arduino_do_temp = serial.Serial('COM3', 9600, timeout=2)
-arduino_ph = serial.Serial('COM4', 9600, timeout=2)
+arduino_do_temp = serial.Serial('/dev/tty.usbmodem1301', 9600, timeout=2)
+arduino_ph = serial.Serial('/dev/tty.usbmodem1201', 9600, timeout=2)
 
 time.sleep(2)  # Allow time for reset
 
-end_time = time.time() + 600  # 10 minutes
-filename = "water_quality_log.csv"
+start = time.time()
+end_time = time.time() + 32  # 10 minutes
+filename = "water_data_log.csv"
+data = pd.DataFrame(columns=['DO', 'Temp', 'pH', 'Time'])
+index = 0 
 
-with open(filename, "w", newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(["Sensor", "Arduino Timestamp (ms)", "Value 1", "Value 2 (if any)", "PC Timestamp (s)"])
 
-    while time.time() < end_time:
-        now = time.time()
-        line_a = arduino_do_temp.readline().decode().strip()
-        line_b = arduino_ph.readline().decode().strip()
+while time.time() < end_time:
+    index += 1
+    now = time.time() - start
+    line_a = arduino_do_temp.readline().decode().strip()
+    line_b = arduino_ph.readline().decode().strip()
 
-        def write_line(line):
-            if line and (line.startswith("DO") or line.startswith("PH")):
-                parts = line.split(",")
-                if len(parts) >= 3:
-                    parts.append(now)  # Add PC timestamp
-                    writer.writerow(parts)
-                    print(parts)
+    if line_a.startswith("DO"):    
+        parts = line_a.split(",")
+        data.loc[index, 'DO'] = parts[1]
+        data.loc[index, 'Temp'] = parts[2]
+    if line_b.startswith("pH"):
+        parts = line_b.split(",")
+        data.loc[index, 'pH'] = parts[1]
 
-        write_line(line_a)
-        write_line(line_b)
+    if line_b.startswith("DO"):    
+        parts = line_b.split(",")
+        data.loc[index, 'DO'] = parts[1]
+        data.loc[index, 'Temp'] = parts[2]
+    if line_a.startswith("pH"):
+        parts = line_a.split(",")
+        data.loc[index, 'pH'] = parts[1]
 
+
+data.to_csv(filename)
 print("✅ Logging complete. File saved as:", filename)

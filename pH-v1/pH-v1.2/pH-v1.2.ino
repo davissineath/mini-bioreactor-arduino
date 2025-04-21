@@ -1,13 +1,7 @@
+
 // Code sourced from Utah STEM center
 
 #include <LiquidCrystal_I2C.h>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
-#include <ctime>
-#include <sys/stat.h> 
-
 LiquidCrystal_I2C lcd(0x27, 20, 4); // set the LCD address to 0x27 for a 16 chars and 2 line display
 #define SensorPin A0 // pH meter Analog output to Arduino Analog Input 0
 #define LED 13 //led screen connected to digital pin 13
@@ -15,7 +9,7 @@ LiquidCrystal_I2C lcd(0x27, 20, 4); // set the LCD address to 0x27 for a 16 char
 int pHArray[ArrayLenth]; // Store the average value of the sensor feedback
 int pHArrayIndex = 0;
 
-// Set up pump and motor valuez
+// Set up pump and motor values
 const int PUMP_PIN = 12; // pump is connected to digital pin 12
 const int MOTOR_PIN = 11; // stepper motor is connected to digital pin 11
 int duty; //value from 0-255, indicates strength of signal given to pump
@@ -54,34 +48,6 @@ control = (180 * IF + 100 * IS + 0 * NC + 0 * DS + 0 * DF) / sum; //180 = ds, 12
 control = 0;
 }
 
-// Getting current date string function
-std::string getDateString() {
-    std::time_t now = std::time(nullptr);
-    std::tm localTime;
-#ifdef _WIN32
-    localtime_s(&localTime, &now); // Windows
-#else
-    localtime_r(&now, &localTime); // Linux/macOS
-#endif
-    std::ostringstream oss;
-    oss << std::put_time(&localTime, "%Y-%m-%d");
-    return oss.str();
-}
-
-// CSV Logging Function
-void logToCSV(float pH) {
-    static bool headerWritten = false;
-    std::string filename = getDateString() + "pH_measurements.csv";
-
-    if (!headerWritten) {
-        file << "pH\n";
-        headerWritten = true;
-    }
-
-    file << pH << "\n";
-    file.close();
-}
-
 // Implement deadband logic, we dont want to have the pump on while we're super close to our target pH
 const float pH_TOLERANCE = 0.1; // target_ph - pH_TOLERANCE = the point at which wewant to shut off the pump to prevent any overshoot
 if (fabs(error) <= pH_TOLERANCE || ph_act >= 7) {
@@ -107,6 +73,7 @@ lcd.backlight();
 lcd.setCursor(0,0);
 }
 void loop(void) {
+unsigned long current_time = millis();
 static float voltage;
 //get pH value
 float calibration_value = 27.87; //change this value to calibrate the pH sensor
@@ -145,21 +112,11 @@ float motor_power = 0; // controls the power of the motor (0-255)
 analogWrite(MOTOR_PIN, motor_power);
 
 //print all useful information to the serial monitor
-Serial.print("{'pH':");
-Serial.print(ph_act);
-Serial.print(", ");
-Serial.print("duty: ");
-Serial.print(control_variable);
-Serial.print(", ");
-Serial.print("Error:");
-Serial.print(error);
-Serial.print("}");
-Serial.println();
+Serial.print("pH,"); Serial.print(ph_act); Serial.println();
+
 // print the pH Value to the LCD screen
 lcd.setCursor(0,1);
 lcd.print("pH: ");
 lcd.print(ph_act);
-//record pH values to CSV file
-logToCSV(ph_act);
 delay(500);
 }

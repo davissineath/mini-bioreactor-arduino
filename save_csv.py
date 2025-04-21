@@ -91,7 +91,7 @@ axs[1].set_title('Dissolved Oxygen')
 axs[2].plot(x, pH, color='tab:green')
 axs[2].set_ylabel('pH')
 axs[2].set_title('pH')
-axs[2].set_xlabel('Time')
+axs[2].set_xlabel('Time (s)')
 
 plt.setp(axs[2].xaxis.get_majorticklabels(), rotation=45)
 

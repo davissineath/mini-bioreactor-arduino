@@ -76,7 +76,7 @@ void loop(void) {
 unsigned long current_time = millis();
 static float voltage;
 //get pH value
-float calibration_value = 27.87; //change this value to calibrate the pH sensor
+float calibration_value = 30.52; //change this value to calibrate the pH sensor
 unsigned long int avgval;
 int buffer_arr[10], temp;
 //take the average analogRead value from 10 readings
@@ -118,5 +118,5 @@ Serial.print("pH,"); Serial.print(ph_act); Serial.println();
 lcd.setCursor(0,1);
 lcd.print("pH: ");
 lcd.print(ph_act);
-delay(500);
+delay(5000);
 }

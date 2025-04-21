@@ -29,7 +29,7 @@ float CVinit = 22.00;
 float CVm = CVinit, lastCVm = CVinit, lastlastCVm = CVinit;
 float currentTime = 0, previousTime = -1, elapsedTime = 1;
 float lastError = 0, error = 0;
-float SP_val = 21.11;
+float SP_val = 50.0;
 
 // === DO Calibration ===
 
@@ -130,5 +130,5 @@ Serial.println();
 
 
 previousTime = currentTime;
-delay(1000);
+delay(5000);
 }

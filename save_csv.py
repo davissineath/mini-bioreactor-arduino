@@ -4,17 +4,19 @@ import time
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Serial connections
+# Serial connections 
+## These connections can be found in the Arduino IDE or using command line (They must be set to your computer)
 arduino_do_temp = serial.Serial('/dev/tty.usbmodem1301', 9600, timeout=2)
 arduino_ph = serial.Serial('/dev/tty.usbmodem1201', 9600, timeout=2)
 
-time.sleep(2)  # Allow time for reset
-
+time.sleep(2) 
 start = time.time()
-end_time = time.time() + 600  # Run for 10 minutes
-filename = "water_data_log.csv"
-data = []
 
+# User Defined Variables
+end_time = time.time() + 600  # Edit this variable for the data collection period in seconds
+filename = "task3" # Edit to name the outputted files, the name will be formatted to the path and file type automatically
+
+data = []
 while time.time() < end_time:
     do_temp_data = None
     ph_data = None
@@ -65,10 +67,11 @@ while time.time() < end_time:
 
     data.append(row)
 
-# Save the final data
+# Save the final data into a data frame
 data = pd.DataFrame(data)
-data.to_csv(filename, index=False)
-print("✅ Logging complete. File saved as:", filename)
+csv_file = "./data/" + filename + ".csv"
+data.to_csv(csv_file, index=False)
+print("Recording complete. File saved as: ", csv_file)
 
 # Sample data
 x = data['Time']
@@ -100,4 +103,10 @@ for ax in axs:
     ax.grid(True)
 
 plt.tight_layout()
+
+plot_name = "./data/plots/" + filename + ".png"
+plt.savefig(plot_name)
+
+print("Plot created. File saved as: ", plot_name)
+
 plt.show()

@@ -110,11 +110,11 @@ analogWrite(HEATER_PIN, duty);
 
 // === DO Sensor Reading ===
 uint16_t adc_raw = analogRead(DO_SENSOR_PIN);
-// uint16_t adc_mv = uint32_t(VREF) * adc_raw / ADC_RES;
-// uint16_t DO_value = readDO(adc_mv, uint8_t(tempCelsius));
+uint16_t adc_mv = uint32_t(VREF) * adc_raw / ADC_RES;
+uint16_t DO_value = readDO(adc_mv, uint8_t(tempCelsius));
 
 
-float DO_value = adc_raw; //* calibration_slope + calibration_offset;
+//float DO_value = adc_raw; //calibration_slope + calibration_offset;
 
 
 // === LCD Output ===
